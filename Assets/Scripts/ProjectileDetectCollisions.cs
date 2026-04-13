@@ -1,10 +1,13 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectCollisions : MonoBehaviour
+public class ProjectileDetectCollisions : MonoBehaviour
 {
+
     public ParticleSystem explosionParticle;
     private GameManagerScript gameManager;
+    public List<GameObject> planetslist;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,16 +22,22 @@ public class DetectCollisions : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        //if (!planetslist.Contains(other.gameObject))
+        //{
+        //    return;
+        //}
+
         ParticleSystem explosion = Instantiate(
-        explosionParticle, 
-        transform.position, 
+        explosionParticle,
+        transform.position,
         transform.rotation);
 
         explosion.Play();
 
         Destroy(gameObject);
         Destroy(other.gameObject);
-        gameManager.UpdateScore(1);
-        gameManager.planetCount = gameManager.planetCount - 1f;
+        
+        
     }
 }

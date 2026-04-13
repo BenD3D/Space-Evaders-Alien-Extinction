@@ -5,7 +5,9 @@ public class CameraFollow : MonoBehaviour
     public GameObject player; 
     public Vector3 offset = new Vector3(-3.84f, 4.16f,-19.36146f);
 
-    public float rotationSpeed = 100f; 
+    public float rotationSpeed = 100f;
+
+    private GameManagerScript gameManager;
 
     // private float HorizontalInput;
     // private float ForwardInput;
@@ -14,7 +16,9 @@ public class CameraFollow : MonoBehaviour
     private float MouseY;
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -22,23 +26,30 @@ public class CameraFollow : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.None;
             new WaitForSeconds(5f);
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if (gameManager.isGameActive == false)
+        {
+            Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
     }
 
     void LateUpdate()
     {
-        // HorizontalInput = Input.GetAxis("Horizontal");
-        // ForwardInput = Input.GetAxis("Vertical");
-        MouseX = Input.GetAxis("Mouse X");
-        MouseY = Input.GetAxis("Mouse Y");
+        if (gameManager.isGameActive)
+        {
+            MouseX = Input.GetAxis("Mouse X");
+            MouseY = Input.GetAxis("Mouse Y");
 
-        transform.position = player.transform.position + offset; 
-        HandleCamera();
-        transform.LookAt(player.transform); 
+            transform.position = player.transform.position + offset;
+            HandleCamera();
+            transform.LookAt(player.transform);
+        }
     }
 
     void HandleCamera()

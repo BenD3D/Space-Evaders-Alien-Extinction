@@ -5,54 +5,140 @@ using TMPro;
 
 public class GameManagerScript : MonoBehaviour
 {
-    public List<GameObject> planets;
-    public float spawnRate = 2.5f;
-    public float planetlimit = 10f;
-    public float planetCount = 0f;
-    public bool isGameActive = true;
+    public List<GameObject> availableplanets;
+    public List<GameObject> AliensList;
+    public GameObject sun;
+    public ParticleSystem explosionParticle;
+
+    public float planetCount = 20;
+    public int alienmovementSpeed = 50;
 
     public TextMeshProUGUI ScoreText;
     public int score;
+    public TextMeshProUGUI PlanetCountText;
+    public TextMeshProUGUI GameOverText;
+    public bool isGameActive;
 
-    public int loopcount;
-    public List<GameObject> spawnedPlanets;
+    public GameObject player;
 
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        isGameActive = true;
         score = 0;
         UpdateScore(0);
+
         
 
-        while (loopcount < 20)
+        if (isGameActive)
         {
-            Debug.Log("Spawning initial Planets...");
-            int index = Random.Range(0, planets.Count);
-            int spawnX = Random.Range(-550, 550);
-            int spawnZ = Random.Range(-550, 550);
-            GameObject planet = planets[index];
-            planet.transform.position = new Vector3(spawnX, 0, spawnZ);
-            Debug.Log(planet.name + " Has been Spawned");
-            spawnedPlanets.Add(planet);
-            planetCount = planetCount + 1f;
-            loopcount = loopcount + 1;
-            //if (planet.transform.position !=  new Vector3(spawnX, 0, 0))
+            ScoreText.gameObject.SetActive(true);
+            PlanetCountText.gameObject.SetActive(true);
+            
+        }
+
+        for (int i = 0; i < availableplanets.Count; i++)
+        {
+            float spawnX = Random.Range(-600f, 600f);
+            float spawnZ = Random.Range(-600f, 600f);
+            availableplanets[i].transform.position = new Vector3(spawnX, 0, spawnZ);
         }
         
+        
+
+        planetCount = availableplanets.Count;
+        PlanetCountText.text = "Planets Left: 20";
+
+        
+        foreach (GameObject alien in AliensList)
+        {
+            StartCoroutine(AlienBehavior(alien));
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    IEnumerator AlienBehavior(GameObject alien)
     {
         
+        while (alien != null && availableplanets.Count > 0 && isGameActive)
+        {
+
+            GameObject targetPlanet = availableplanets[Random.Range(0, availableplanets.Count)];
+
+
+            while (alien != null && targetPlanet != null && Vector3.Distance(alien.transform.position, targetPlanet.transform.position) > 1f)
+            {
+                alien.transform.position = Vector3.MoveTowards(
+                    alien.transform.position,
+                    targetPlanet.transform.position,
+                    alienmovementSpeed * Time.deltaTime
+                );
+                yield return null;
+            }
+
+            
+            if (alien != null && targetPlanet != null)
+            {
+                Debug.Log(alien.name + " destroyed " + targetPlanet.name);
+                DestroyPlanet(targetPlanet);
+            }
+
+            
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    public void DestroyPlanet(GameObject planet)
+    {
+        if (availableplanets.Contains(planet))
+        {
+            availableplanets.Remove(planet);
+            Destroy(planet);
+
+            planetCount--;
+            PlanetCountText.text = "Planets Left: " + planetCount;
+            UpdateScore(100); 
+        }
     }
 
     public void UpdateScore(int scoreToAdd)
     {
         score += scoreToAdd;
-        ScoreText.text = "Score: " + score;
+        ScoreText.text = "Aliens Destroyed: " + score;
     }
 
-   
+    public void TotalPlanets(int count)
+    {
+        planetCount -= count;
+        PlanetCountText.text = "Planets Left: " + planetCount;
+
+        if (planetCount <= 0)
+        {
+            GameOver();
+        }
+    }
+
+
+    public void GameOver()
+    {
+        isGameActive = false;
+        GameOverText.gameObject.SetActive(true);
+        ScoreText.gameObject.SetActive(false);
+        PlanetCountText.gameObject.SetActive(false);
+        player.SetActive(false);
+
+        foreach (GameObject alien in AliensList)
+        {
+            Destroy(alien);
+        }
+
+        ParticleSystem explosion = Instantiate(
+        explosionParticle,
+        sun.transform.position,
+        sun.transform.rotation);
+
+        Destroy(sun);
+
+        explosion.Play();
+
+    }
 }
