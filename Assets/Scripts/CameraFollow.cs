@@ -37,6 +37,13 @@ public class CameraFollow : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
+
+        if (gameManager.isGameActive == true)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
     }
 
     void LateUpdate()
