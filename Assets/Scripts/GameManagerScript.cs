@@ -80,6 +80,7 @@ public class GameManagerScript : MonoBehaviour
             {
                 Debug.Log(alien.name + " destroyed " + targetPlanet.name);
                 DestroyPlanet(targetPlanet);
+                
             }
 
             
@@ -93,6 +94,7 @@ public class GameManagerScript : MonoBehaviour
         {
             availableplanets.Remove(planet);
             Destroy(planet);
+            
 
             planetCount--;
             PlanetCountText.text = "Planets Left: " + planetCount;

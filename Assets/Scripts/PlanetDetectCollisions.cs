@@ -21,23 +21,16 @@ public class PlanetDetectCollisions : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (planetslist.Contains(other.gameObject))
+        if(!gameManager.AliensList.Contains(other.gameObject))
         {
+            Destroy(other.gameObject);
             return;
         }
-
-        ParticleSystem explosion = Instantiate(
-        explosionParticle,
-        transform.position,
-        transform.rotation);
-
-        explosion.Play();
 
         Destroy(gameObject);
        
         gameManager.TotalPlanets(1);
 
-        gameManager.availableplanets.Remove(gameObject);
+        
     }
 }

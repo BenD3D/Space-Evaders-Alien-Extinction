@@ -6,12 +6,13 @@ public class ProjectileDetectCollisions : MonoBehaviour
 
     public ParticleSystem explosionParticle;
     private GameManagerScript gameManager;
-    public List<GameObject> planetslist;
+    private PlanetDetectCollisions PlanetCollisions;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+        PlanetCollisions = GetComponent<PlanetDetectCollisions>();
     }
 
     // Update is called once per frame
@@ -23,20 +24,21 @@ public class ProjectileDetectCollisions : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        //if (!planetslist.Contains(other.gameObject))
+        //if (PlanetCollisions.planetslist.Contains(other.gameObject) && other.gameObject.name.Contains("Projectile"))
         //{
+        //    Destroy(gameObject);
         //    return;
         //}
 
-        ParticleSystem explosion = Instantiate(
-        explosionParticle,
-        transform.position,
-        transform.rotation);
+        
+        
+        
+        //Debug.Log("Projectile collided with: " + other.gameObject.name);
 
-        explosion.Play();
-
-        Destroy(gameObject);
-        Destroy(other.gameObject);
+        //Destroy(gameObject);
+        //Destroy(other.gameObject);
+        
+        
         
         
     }

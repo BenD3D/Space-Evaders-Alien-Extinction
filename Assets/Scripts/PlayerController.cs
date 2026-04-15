@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && shootTimer <= 0f && gameManager.isGameActive)
         {
             GameObject Projectile = Instantiate(ProjectilePrefab, transform.position, Quaternion.Euler(0, 90, 0) * Spaceship.transform.rotation);
+            Projectile.SetActive(true);
             shootTimer = shootCooldown;
             LiveProjectiles.Add(Projectile);
 

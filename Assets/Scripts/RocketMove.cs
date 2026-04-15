@@ -20,6 +20,8 @@ public class RocketMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+
         transform.Translate(direction * Time.deltaTime * speed);
 
         if (transform.position.z > NorthBound.z || transform.position.z < SouthBound.z || transform.position.x > EastBound.x || transform.position.x < WestBound.x)
