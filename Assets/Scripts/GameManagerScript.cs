@@ -4,6 +4,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -69,7 +70,11 @@ public class GameManagerScript : MonoBehaviour
                 yield return null;
             }
 
-            
+            if (planetCount <= 0 || availableplanets == null)
+            {
+                GameOver();
+            }
+
             if (alien != null && targetPlanet != null)
             {
                 Debug.Log(alien.name + " destroyed " + targetPlanet.name);
@@ -104,7 +109,7 @@ public class GameManagerScript : MonoBehaviour
         planetCount -= count;
         PlanetCountText.text = "Planets Left: " + planetCount;
 
-        if (planetCount <= 0 || availableplanets == null)
+        if (planetCount <= 2 ||  availableplanets == null)
         {
             GameOver();
         }
