@@ -70,9 +70,10 @@ public class GameManagerScript : MonoBehaviour
                 yield return null;
             }
 
-            if (planetCount <= 0 || availableplanets == null)
+            if (planetCount <= 2 || availableplanets == null)
             {
                 GameOver();
+                Debug.Log("Game Over from Alien Spawner");
             }
 
             if (alien != null && targetPlanet != null)
@@ -112,6 +113,7 @@ public class GameManagerScript : MonoBehaviour
         if (planetCount <= 2 ||  availableplanets == null)
         {
             GameOver();
+            Debug.Log("Game Over from total planets");
         }
     }
 
