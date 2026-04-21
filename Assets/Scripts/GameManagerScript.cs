@@ -86,8 +86,6 @@ public class GameManagerScript : MonoBehaviour
         if (availableplanets.Contains(planet))
         {
             availableplanets.Remove(planet);
-            //Destroy(planet);
-            
 
             planetCount--;
             PlanetCountText.text = "Planets Left: " + planetCount;
@@ -106,7 +104,7 @@ public class GameManagerScript : MonoBehaviour
         planetCount -= count;
         PlanetCountText.text = "Planets Left: " + planetCount;
 
-        if (planetCount <= 0 || availableplanets.Count == 0)
+        if (planetCount <= 0 || availableplanets == null)
         {
             GameOver();
         }

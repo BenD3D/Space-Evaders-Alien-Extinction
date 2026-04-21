@@ -27,8 +27,9 @@ public class PlanetDetectCollisions : MonoBehaviour
             return;
         }
 
+        //gameManager.DestroyPlanet(gameObject);
         Destroy(gameObject);
-       
+
         gameManager.TotalPlanets(1);
 
         
