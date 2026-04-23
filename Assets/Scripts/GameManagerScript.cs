@@ -31,6 +31,8 @@ public class GameManagerScript : MonoBehaviour
     public Button MediumButton;
     public Button HardButton;
 
+    public TextMeshProUGUI Wintext;
+
     void Start()
     {
         isGameActive = false;
@@ -103,6 +105,12 @@ public class GameManagerScript : MonoBehaviour
     {
         score += scoreToAdd;
         ScoreText.text = "Aliens Destroyed: " + score;
+        
+        if (score == 10)
+        {
+            Victory();
+            Debug.Log("You Win!");
+        }
     }
 
     public void TotalPlanets(int count)
@@ -143,6 +151,17 @@ public class GameManagerScript : MonoBehaviour
 
     }
 
+    public void Victory()
+    {
+        isGameActive = false;
+        Wintext.gameObject.SetActive(true);
+        restartbutton.gameObject.SetActive(true);
+        ScoreText.gameObject.SetActive(false);
+        PlanetCountText.gameObject.SetActive(false);
+        player.SetActive(false);
+        Debug.Log("Victory Function Called");
+
+    }
 
     public void RestartGame()
     {

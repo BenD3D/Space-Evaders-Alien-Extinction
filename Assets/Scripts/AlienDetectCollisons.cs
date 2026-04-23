@@ -43,6 +43,7 @@ public class AlienDetectCollisons : MonoBehaviour
         if (playerController.LiveProjectiles.Contains(other.gameObject))
         {
             Destroy(gameObject);
+            gameManager.AliensList.Remove(gameObject);
             Debug.Log("Alien Destroyed");
             gameManager.UpdateScore(1);
         }
