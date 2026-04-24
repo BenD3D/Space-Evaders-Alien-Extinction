@@ -5,6 +5,7 @@ public class DifficultyScript : MonoBehaviour
 
     private Button button;
     private GameManagerScript gameManager;
+    public int difficulty;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +24,6 @@ public class DifficultyScript : MonoBehaviour
     void SetDifficulty()
     {
         Debug.Log(button.gameObject.name + " was clicked");
-        gameManager.StartGame();
+        gameManager.StartGame(difficulty);
     }
 }

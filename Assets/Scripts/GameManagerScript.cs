@@ -14,7 +14,7 @@ public class GameManagerScript : MonoBehaviour
     public ParticleSystem explosionParticle;
 
     public float planetCount;
-    public int alienmovementSpeed = 50;
+    public int alienmovementSpeed = 40;
 
     public TextMeshProUGUI ScoreText;
     public int score;
@@ -52,10 +52,10 @@ public class GameManagerScript : MonoBehaviour
         }
 
     }
-    
+
     IEnumerator AlienBehavior(GameObject alien)
     {
-        
+
         while (alien != null && availableplanets.Count > 0 && isGameActive)
         {
 
@@ -84,7 +84,7 @@ public class GameManagerScript : MonoBehaviour
                 DestroyPlanet(targetPlanet);
             }
 
-            
+
             yield return new WaitForSeconds(1f);
         }
     }
@@ -97,7 +97,7 @@ public class GameManagerScript : MonoBehaviour
 
             planetCount--;
             PlanetCountText.text = "Planets Left: " + planetCount;
-            UpdateScore(100); 
+            UpdateScore(100);
         }
     }
 
@@ -105,7 +105,7 @@ public class GameManagerScript : MonoBehaviour
     {
         score += scoreToAdd;
         ScoreText.text = "Aliens Destroyed: " + score;
-        
+
         if (score == 10)
         {
             Victory();
@@ -118,7 +118,7 @@ public class GameManagerScript : MonoBehaviour
         planetCount -= count;
         PlanetCountText.text = "Planets Left: " + planetCount;
 
-        if (planetCount <= 2 ||  availableplanets == null)
+        if (planetCount <= 2 || availableplanets == null)
         {
             GameOver();
             Debug.Log("Game Over from total planets");
@@ -168,11 +168,24 @@ public class GameManagerScript : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void StartGame()
+    public void StartGame(int difficulty)
     {
         isGameActive = true;
         score = 0;
         UpdateScore(0);
+
+        if (difficulty == 1)
+        {
+            alienmovementSpeed = 40;
+        }
+        else if (difficulty == 2)
+        {
+            alienmovementSpeed = 75;
+        }
+        else if (difficulty == 3)
+        {
+            alienmovementSpeed = 100;
+        }
 
         GameName.gameObject.SetActive(false);
         EasyButton.gameObject.SetActive(false);
@@ -213,6 +226,9 @@ public class GameManagerScript : MonoBehaviour
         {
             StartCoroutine(AlienBehavior(alien));
         }
-    
+
     }
+
+    
+    
 }
