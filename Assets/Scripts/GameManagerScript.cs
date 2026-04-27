@@ -33,6 +33,15 @@ public class GameManagerScript : MonoBehaviour
 
     public TextMeshProUGUI Wintext;
 
+    // Controls menu
+    public TextMeshProUGUI ControlsTitle;
+    public TextMeshProUGUI BasicMovement;
+    public TextMeshProUGUI FireRocket;
+    public TextMeshProUGUI Boost;
+    public Button ControlsButton;
+    public TextMeshProUGUI Description;
+    public Button BackButton;
+
     void Start()
     {
         isGameActive = false;
@@ -166,6 +175,22 @@ public class GameManagerScript : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ControlsMenu()
+    {
+        GameName.gameObject.SetActive(false);
+        EasyButton.gameObject.SetActive(false);
+        MediumButton.gameObject.SetActive(false);
+        HardButton.gameObject.SetActive(false);
+        ControlsButton.gameObject.SetActive(false);
+
+        ControlsTitle.gameObject.SetActive(true);
+        BasicMovement.gameObject.SetActive(true);
+        FireRocket.gameObject.SetActive(true);
+        Boost.gameObject.SetActive(true);
+        Description.gameObject.SetActive(true);
+        BackButton.gameObject.SetActive(true);
     }
 
     public void StartGame(int difficulty)
