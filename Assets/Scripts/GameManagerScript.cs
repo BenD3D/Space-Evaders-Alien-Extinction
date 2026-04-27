@@ -16,6 +16,8 @@ public class GameManagerScript : MonoBehaviour
     public float planetCount;
     public int alienmovementSpeed = 40;
 
+    public int planetsleft;
+
     public TextMeshProUGUI ScoreText;
     public int score;
     public TextMeshProUGUI PlanetCountText;
@@ -41,10 +43,12 @@ public class GameManagerScript : MonoBehaviour
     public Button ControlsButton;
     public TextMeshProUGUI Description;
     public Button BackButton;
+    
 
     void Start()
     {
         isGameActive = false;
+        planetsleft = 20;
 
         if (isGameActive == false)
         {
@@ -62,11 +66,21 @@ public class GameManagerScript : MonoBehaviour
 
     }
 
+    
+
     IEnumerator AlienBehavior(GameObject alien)
     {
+        
 
-        while (alien != null && availableplanets.Count > 0 && isGameActive)
+        while (alien != null && isGameActive)
         {
+            availableplanets.RemoveAll(planet => planet == null);
+
+            if (availableplanets.Count <= 0)
+            {
+                GameOver();
+                yield break;
+            }
 
             GameObject targetPlanet = availableplanets[Random.Range(0, availableplanets.Count)];
 
@@ -81,11 +95,11 @@ public class GameManagerScript : MonoBehaviour
                 yield return null;
             }
 
-            if (planetCount <= 2 || availableplanets == null)
-            {
-                GameOver();
-                Debug.Log("Game Over from Alien Spawner");
-            }
+            //if (planetCount <= 2 || availableplanets == null || availableplanets.Count == 0)
+            //{
+            //    GameOver();
+            //    Debug.Log("Game Over from Alien Spawner");
+            //}
 
             if (alien != null && targetPlanet != null)
             {
@@ -104,9 +118,16 @@ public class GameManagerScript : MonoBehaviour
         {
             availableplanets.Remove(planet);
 
-            planetCount--;
-            PlanetCountText.text = "Planets Left: " + planetCount;
-            UpdateScore(100);
+            Destroy(planet);
+
+            PlanetCountText.text = "Planets Left: " + availableplanets.Count;
+            
+            if (availableplanets.Count <= 0)
+            {
+                GameOver();
+            }
+
+            
         }
     }
 
@@ -127,11 +148,6 @@ public class GameManagerScript : MonoBehaviour
         planetCount -= count;
         PlanetCountText.text = "Planets Left: " + planetCount;
 
-        if (planetCount <= 2 || availableplanets == null)
-        {
-            GameOver();
-            Debug.Log("Game Over from total planets");
-        }
     }
 
 
@@ -216,6 +232,7 @@ public class GameManagerScript : MonoBehaviour
         EasyButton.gameObject.SetActive(false);
         MediumButton.gameObject.SetActive(false);
         HardButton.gameObject.SetActive(false);
+        ControlsButton.gameObject.SetActive(false);
 
         ScoreText.gameObject.SetActive(true);
         PlanetCountText.gameObject.SetActive(true);
@@ -254,6 +271,9 @@ public class GameManagerScript : MonoBehaviour
 
     }
 
-    
-    
+    void Update()
+    {
+        
+    }
+
 }

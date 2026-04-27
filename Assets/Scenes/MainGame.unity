@@ -5643,9 +5643,9 @@ RectTransform:
   - {fileID: 234668541}
   m_Father: {fileID: 1179646285}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1017, y: 359}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 177, y: -65}
   m_SizeDelta: {x: 220, y: 56.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1882201431
@@ -5807,6 +5807,7 @@ MonoBehaviour:
   explosionParticle: {fileID: 9125212449759046732, guid: cb7cd9b0c56a24d49a40784bd3203ae6, type: 3}
   planetCount: 0
   alienmovementSpeed: 60
+  planetsleft: 0
   ScoreText: {fileID: 1090907927}
   score: 0
   PlanetCountText: {fileID: 24260794}
