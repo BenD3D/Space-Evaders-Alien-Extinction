@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UnityEditor.EditorTools;
+//using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class AlienDetectCollisons : MonoBehaviour
